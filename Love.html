@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sevgililer Günümüz 💖</title>
+
+<style>
+body{
+margin:0;
+height:100vh;
+display:flex;
+justify-content:center;
+align-items:center;
+font-family:Arial;
+background:linear-gradient(135deg,#ff9ecf,#ffc0cb);
+overflow:hidden;
+}
+
+.kutu{
+background:white;
+padding:40px;
+border-radius:20px;
+text-align:center;
+box-shadow:0 10px 30px rgba(0,0,0,0.2);
+position:relative;
+z-index:2;
+}
+
+h1{color:#ff4d88;}
+
+button{
+padding:12px 25px;
+font-size:18px;
+border:none;
+border-radius:12px;
+cursor:pointer;
+margin:10px;
+transition:0.2s;
+}
+
+#evet{background:#ff4d88;color:white;}
+#hayir{
+background:pink;
+position:fixed;
+left:60%;
+top:60%;
+z-index:9999;
+}
+
+.sonuc{font-size:22px;color:#ff4d88;}
+
+.kalp{
+position:fixed;
+bottom:-20px;
+font-size:20px;
+animation:uc 6s linear infinite;
+opacity:0.7;
+}
+
+@keyframes uc{
+0%{transform:translateY(0);}
+100%{transform:translateY(-110vh);}
+}
+</style>
+</head>
+
+<body>
+
+<audio id="muzik" loop>
+<source src="İslansin.m4a" type="audio/mp4">
+</audio>
+
+<div class="kutu" id="kutu">
+<h1>Birlikte sevgililer günümüzü kutlayalım mı? 💖</h1>
+<button id="evet">Evet 💘</button>
+</div>
+
+<button id="hayir">Hayır 😢</button>
+
+<script>
+const hayir=document.getElementById("hayir");
+const evet=document.getElementById("evet");
+const kutu=document.getElementById("kutu");
+
+function kac(){
+const w=window.innerWidth-100;
+const h=window.innerHeight-60;
+hayir.style.left=Math.random()*w+"px";
+hayir.style.top=Math.random()*h+"px";
+hayir.style.transform=`scale(${Math.random()*0.5+0.7}) rotate(${Math.random()*40-20}deg)`;
+}
+
+document.addEventListener("mousemove",e=>{
+const rect=hayir.getBoundingClientRect();
+const dx=e.clientX-rect.left;
+const dy=e.clientY-rect.top;
+const mesafe=Math.sqrt(dx*dx+dy*dy);
+if(mesafe<120){kac();}
+});
+
+hayir.addEventListener("mouseover",kac);
+hayir.addEventListener("touchstart",kac);
+hayir.addEventListener("click",kac);
+
+evet.addEventListener("click",()=>{
+document.getElementById("muzik").play();
+kutu.innerHTML=`
+<div class="sonuc">
+💖 Sevgililer günümüz kutlu olsun yavrum 💖<br><br>
+<small>Seni çok seviyorum(Birazcık bekle senin için) ❤️</small>
+</div>`;
+hayir.style.display="none";
+});
+
+function kalpOlustur(){
+const kalp=document.createElement("div");
+kalp.classList.add("kalp");
+kalp.innerHTML="💖";
+kalp.style.left=Math.random()*100+"vw";
+kalp.style.fontSize=(Math.random()*20+15)+"px";
+kalp.style.animationDuration=(Math.random()*3+3)+"s";
+document.body.appendChild(kalp);
+setTimeout(()=>kalp.remove(),6000);
+}
+setInterval(kalpOlustur,250);
+</script>
+
+</body>
+</html>
